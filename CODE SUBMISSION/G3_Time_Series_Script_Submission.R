@@ -9,8 +9,7 @@ Time_Series_Data <- read.csv("C:/Users/ASUS/Documents/Portfolio Dataset/Exp 8/4_
 candy_palette <- c(
   "Patient_1" = "#B5EAD7",  
   "Patient_2" = "#C7CEEA",  
-  "Patient_3" = "#FEC8D8"
-)
+  "Patient_3" = "#FEC8D8")
 
 # Preprocessing
 clean_data <- Time_Series_Data %>%
@@ -18,17 +17,14 @@ clean_data <- Time_Series_Data %>%
     cols = starts_with("Patient_"),
     names_to = c("Patient", "Variable"),
     names_pattern = "Patient_(\\d)_(.*)",
-    values_to = "Value"
-  ) %>%
+    values_to = "Value") %>%
   pivot_wider(
     names_from = Variable,
-    values_from = Value
-  ) %>%
+    values_from = Value) %>%
   mutate(
     Patient = paste0("Patient_", Patient),
     Month_num = (Month_numerical - 1) %% 12 + 1,
-    Month_Label = factor(month.abb[Month_num], levels = month.abb)
-  ) %>%
+    Month_Label = factor(month.abb[Month_num], levels = month.abb)) %>%
   filter(!is.na(avg_steps), !is.na(Stress_Level), !is.na(BMI))
 
 # Descriptive statistics of the dataset (mean, median, standard deviation, etc.)
@@ -44,9 +40,10 @@ descriptive_stats <- clean_data %>%
     
     mean_BMI = mean(BMI, na.rm = TRUE),
     median_BMI = median(BMI, na.rm = TRUE),
-    sd_BMI = sd(BMI, na.rm = TRUE)
-  )
+    sd_BMI = sd(BMI, na.rm = TRUE))
+
 print(descriptive_stats)
+
 # Line Plot: Steps Over Time
 clean_data <- clean_data %>%
   mutate(
